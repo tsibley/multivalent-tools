@@ -1,0 +1,125 @@
+<html>
+<head>
+<title>Multivalent Tools: PDF Split</title>
+<style>
+@import url("../../style.css");
+</style>
+</head>
+
+<body>
+
+<h2 id='Split'>Split</h2>
+
+Split pages from one PDF into one or more new PDFs.
+The <a href='http://multivalent.sourceforge.net/Tools/HowToRun.html#range'>page range</a> can 
+<ul>
+<li>make subsets (e.g., pages 1-20 or every 5th page from 1-100)
+<li>delete pages, by dropping them from the range extracted
+<li>insert blank pages, by specifying page <code>0</code> (zero)
+<li>arbitrarily rearrange pages (e.g., reverse all pages)
+<li>add duplicate pages (e.g., three copies of the signature page of a contract)
+<li>given a PDF with reordered pages (for example, all odd-numbered pages followed by all even)
+conveniently restore the original order
+</ul>
+
+
+
+<h3>Options</h3>
+
+<blockquote><code>java tool.pdf.<b>S</b>plit <i>[options]</i> <var>PDF-filename</var></code></blockquote>
+
+
+<ul class='options'>
+<li id='page'><span class='opt'>-page <a href='http://multivalent.sourceforge.net/Tools/HowToRun.html#range'><var>range</var></a></span> --
+extract pages in <var>range</var>.
+PDF page numbers refer to physical pages, not logical numbers or the numbers printed on the pages,
+from 1 to the total number of pages.
+A blank page can be inserted with the special case page number of <code>blank</code> or <code>b</code>.
+A single PDF can be <span class='point'>split into multiple PDFs</span> by supplying multiple page ranges separated by semicolons.
+
+<li id='single'><span class='opt'>-1</span> -- 
+splits each page (in the selected <span class='opt'>-page</span> range) into its own PDF
+
+<li id='doublesided'><span class='opt'>-doublesided</span> aka <span class='opt'>-duplex</span> -- 
+Some printers can print <dfn>duplex</dfn> mode, that is, on the front and back of paper as it is printed.
+On non-duplex printers, double-sided printing can be achieved by first printing the page front sides,
+next turning the printed papers over and reloading the printer,
+and finally printing the backs.
+This option splits a PDF (actually each <span class='opt'>-page</span> range) into two, one with the fronts and another with the backs.
+(If the <span class='opt'>-page</span> is not set and therefore all pages are selected,
+it is equivalent to <code>java tool.pdf.Split -page odd;even</code>,
+or <code>java tool.pdf.Split -page odd;even,0</code> if there is one more odd page than even.)
+
+<li id='password'><span class='opt'>-password <var>password</var></span> -- password if PDF is encrypted
+<!--li><span class='opt'>-out <var>file</var></span> -- name of new split file.  Default: <code>split.pdf</code>-->
+
+</ul>
+
+
+The split version of the PDF is named with <code>-x</code> appended to the original file name.
+<!-- if -1, append page number? if so zap duplicates? -->
+<!-- if -doublesided, ..-x-fronts.pdf and -x-backs.pdf -->
+
+
+
+<h3 id='examples'>Examples</h3>
+
+<p>1. Subset the first 20 pages and three copies of the last.
+
+<pre>java tool.pdf.Split -page 1-20,last,last,last contract.pdf</pre>
+
+<p>2. Rearrange pages to all odd followed by all even.
+
+<pre>java tool.pdf.Split -page odd,even for-non-duplex-copier.pdf</pre>
+
+<p>3. Delete page 5.
+
+<pre>java tool.pdf.Split -page 1-4,5-end contract.pdf</pre>
+
+<p>4. Insert blank page after cover page.
+
+<pre>java tool.pdf.Split -page 1,b,2-end report.pdf</pre>
+
+<p>5. Split page ranges into multiple PDFs by separating ranges with semicolons.
+
+<pre>java tool.pdf.Split -page "1-12;13-20;21-end" book-with-chapters.pdf</pre>
+
+<p>5. Split page first 1000 pages into multiple PDFs of 100 pages each.
+
+<pre>java tool.pdf.Split -page "1-1000/100" big.pdf</pre>
+
+<p>7. For double-sided printing on a non-duplex printing, split the first 11 pages into a PDF with the odd pages 
+and another PDF with the even pages.  
+Since there is an odd number of pages, the PDF with the even pages is given an additional blank page in order to match the number of odd pages.
+
+<pre>java tool.pdf.Split -page 1-11 -doublesided handouts.pdf</pre>
+
+<p>8. Given a PDF with rearranged pages, you can conveniently recover the original order
+with the <code>backmap</code> operator to the <span class='opt'>-page</span> option.
+For example, if the PDF has all the odd pages followed by all the even pages,
+for a page order of 1,3,5,...,2,4,6,..., then the following 
+back maps this ordering to the original 1,2,3,4,5,6,....
+
+<pre>java tool.pdf.Split -page odd,even,backmap odd-even.pdf</pre>
+
+If the odd pages are in one PDF and the even in another, you can first use the <a href='Merge.html'>Merge</a> tool.
+
+
+<h3 id='form'>Notes</h3>
+
+Some PDF entities span multiple pages, not all of which are in the split-off PDF.
+These are handled as follows.
+<ul>
+<li>Outline aka hierarical bookmarks are retained if they point to a page in the split-off PDF, thrown out if not.  
+Outline nesting is preserved.
+
+<li>Interactive fill-in forms span the entire document, possibly with form fields on several pages.
+If the split-off PDF takes from the source PDF either no pages with fields or all the pages with fields, then this fact is not noted.
+
+If however the split off PDF has some but not all such pages, then a warning is issued.
+If you intend to subsequently merge the split portion with another split portion with the other pages, all is well;
+if you don't, then some fields in the form cannot be set interactively.
+</ul>
+
+</body>
+</html>

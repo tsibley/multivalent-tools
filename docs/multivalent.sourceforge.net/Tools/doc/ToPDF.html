@@ -1,0 +1,47 @@
+<html>
+<head>
+<title>Multivalent Tools: Convert to PDF</title>
+<style>
+@import url("../../style.css");
+</style>
+</head>
+
+<body>
+
+<h2 id='ToPDF'>Convert to PDF</h2>
+
+<em>This tools was written as an example for developers.
+It is not meant for end users, who are referred to Acrobat for this task.</em>
+
+<p>Translates any supported document format (HTML, DVI, man pages, ...) to PDF.
+any doc and builds doc tree,
+traverse document tree and pull out data.
+also example of writing PDF with PDFWriter library
+
+<h3>Options</h3>
+
+<blockquote><code>java tool.doc.ToPDF <i>[options]</i> <var>document-file(s)</var></code></blockquote>
+
+<ul>
+<li><span class='opt'>-paper <a href='http://multivalent.sourceforge.net/HowToRun.html#papers'><var>paper-size</var></a></span> -- 
+paper size
+(Default: US letter.)
+
+<li><span class='opt'>-border <a href='http://multivalent.sourceforge.net/Tools/HowToRun.html#lengths'><var>length</var></a></span> -- 
+size of border between content and page, around all four sides (top, bottom, left, right)
+(Default: 1 inch)
+
+<li><span class='opt'>-page <a href='http://multivalent.sourceforge.net/Tools/HowToRun.html#range'><var>range</var></a></span> --
+selected pages from source PDF, for those formats that are paginated
+
+<!--
+<li><span class='opt'>-verbose</span> -- 
+
+<li><span class='opt'>-password <var>password</var></span> -- 
+password if document is encrypted
+-->
+
+</ul>
+
+</body>
+</html>

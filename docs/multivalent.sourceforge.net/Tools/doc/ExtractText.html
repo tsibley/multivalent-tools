@@ -1,0 +1,199 @@
+<html>
+<head>
+<title>Multivalent Tools: Extract Text</title>
+<style>
+@import url("../../style.css");
+</style>
+</head>
+
+<body>
+
+<h2 id='Extract'>Extract Text</h2>
+
+Extract text and more from any supported document type, including PDF, HTML, and DVI.
+<p>Extract
+<ul>
+<li>text, optionally normalized to Unicode
+<li>document structure
+<li>hyperlinks
+<li>layout (bounding boxes)
+<li>style (font, colors)
+</ul>
+
+<p>Since the extractors are based on the same engine that is used for
+rendering, they are not confused by markup or spacing;
+HTML pastes together words across style markup,
+and PDF tries hard to paste together words from fragments that
+may have been positioned with intervening kerning spacing.
+
+
+<h3 id='options'>Options</h3>
+
+<blockquote><code>java tool.doc.ExtractText <var>[options]</var> <var>URL|filename...</var></code></blockquote>
+
+<ul class='options'>
+<li><span class='opt'>-output [<var>format</var>]</span>
+
+<ul>
+<li><span class='opt'>unicode</span> --
+Extract text, normalized to Unicode.  (Default.)
+
+<li><span class='opt'>doctree</span> -- 
+Display document tree, which is the primary internal runtime data structure for the document, 
+as structure and text in XML syntax (but not necessarily well nested, which is required for valid XML).
+
+<li><span class='opt'>xml</span> --
+Output text content normalized to Unicode, and document structure as XML tags.
+Note that this does not convert the source document to XML!  It reports results in XML syntax.
+</ul>
+
+
+<li><span class='opt'>-bbox</span> --
+Report layout bounding boxes for structure and each word, 
+in coordinates relative to a tag's parent tag.
+This requires document tree or XML output, above.
+The bounding box for the enclosed subtree is given on the <code>bbox</code> attribute 
+in the form <code><var>width</var> x <var>height</var> @ <var>x</var>, <var>y</var></code>.
+<!--
+for paginated documents, <span class='point'>layout text in roughly same positions as source</span> format.
+EXPERIMENTAL
+-->
+
+<li><span class='opt'>-links</span> -- 
+In Unicode text mode, output only the hyperlink URIs.
+In document tree and XML modes, also report hyperlinks, normalized to HTML <code>a href=...</code> syntax.
+
+<li><span class='opt'>-span</span> -- 
+In addition to reporting structure in XML format, also report spans, which are used for hyperlinks and much of the formatting.
+
+<li><span class='opt'>-style</span> -- 
+In XML mode, normalize styling information across document types into the following HTML tags:
+B, I, U, FONT (with FACE, SIZE, COLOR, and BACKGROUND-COLOR attributes).
+Mutually exclusive with <span class='opt'>-span</span>.
+
+<!--
+<li><span class='opt'>-indent</span> -- 
+
+<li><span class='opt'>-separator <var>string</var></span> -- 
+string to use to separate pages.  
+To have no separator, use <code>-separator ""</code>.
+Default: <code>===========</code>.
+
+<li><span class='opt'>-plaintext</span> -- 
+convert Unicode to plain text by removing accents, convert curly quotes to straight quotes, and splitting ligatures.
+
+<li><span class='opt'>-mime <var>MIME-type</var></span> -- 
+MIME type of file, if unusual.
+By default the tool uses the file suffix to determine its type.
+-->
+
+<li><span class='opt'>-page <a href='http://multivalent.sourceforge.net/Tools/HowToRun.html#range'><var>range</var></a></span> -- 
+for paginated documents,
+extract text only in <var>range</var>
+
+</ul>
+
+
+
+<!--
+<h3 id='comparison'>Comparison of PDF Text Extraction Software</h3>
+
+Tested on arbitrary selection of xxx PDFs, totalling xxx MB, and xxx pages.
+
+On Mac OS, 1GHz G4 processor, 768MB memory.
+
+<p><table width='95%' border='1'>
+<tr><th><th><a href='../../Tools/index.html'>Multivalent</a><th><a href=''>xpdf</a><th><a href='http://www.pdfbox.org/'>PDFBox</a><th><a href=''>JPedal</a>
+<tr><td>Language<td>Java<td>C++<td>Java<td>Java
+<tr><td>Version<td>tool.doc.ExtractText 1.1 (in Release 8.2)<td>pdftext (in v3.0)<td>org.pdfbox.ExtractText (in v0.6.5)<td>not tested -- proprietary
+<tr><td>iterate over multiple PDFs<td>yes, with directory recursion<td>UNIX glob pattern<td>no
+<tr><td colspan='5' bgcolor='gray'>Features
+<tr><td>page selection<td>sophisticated expression<td><td>simple start and end pages
+<tr><td>extract within rectangle?<td>no<td>no<td>no<td>yes
+<tr><td>supports CJK?<td>yes<td>yes<td>no
+<tr><td>collect text as written mode?<td>yes<td>yes<td>yes
+<tr><td>layout preservation mode?<td>yes<td>yes<td>no
+<tr><td colspan='5' bgcolor='gray'>Performance
+<tr><td>Font Support<td>all (Type 1, Type 1C, TrueType, Type 0)<td>all<td>
+<tr><td>Encoding<td>
+<tr><td>Quality<td>occasional null bytes<td><td>drops ligatures (such as fi as single combined glyph), curly quotes replaced by question mark
+<tr><td>Performance on book.pdf (640 pages, mostly text)<td>204 sec (3.3 min)<td><td>330 seconds (5.5 minutes)
+
+</table>
+-->
+
+
+
+<h3 id='examples'>Examples</h3>
+
+<p>1. The default operation extracts text as Unicode, from any supported document format:
+
+<p><code>java tool.pdf.ExtractText Annotations.pdf</code>
+<p><code>java -classpath .../Multivalent.jar:.../DVI.jar tool.doc.ExtractText tripman.dvi ls.1</code>
+
+
+<p>2. Extract links
+
+<p><code>java tool.doc.ExtractText -links index.html PDFReference16.pdf tripman.dvi</code>
+
+
+<p>3. Dump document tree
+
+<p><code>java tool.doc.ExtractText -output doctree -span -link tripman.dvi</code>
+
+
+<p>4. XML
+
+<p><code>java tool.doc.ExtractText -output xml tripman.dvi</code>
+
+<p>5. XML with layout and style
+
+<p><code>java tool.doc.ExtractText -output xml -bbox -style tripman.dvi</code>
+
+
+<!--
+<p>6. XML on HTML produces XHTML (almost)
+
+<p><code>java tool.doc.ExtractText -output xml -links -spans index.html</code>
+-->
+
+
+<h3 id='options'>Technical Notes</h3>
+
+<h4>Garbage text</h4>
+Sometimes text that appears fine when rendered by the browser extracts as apparant garbage.
+Here are some issues:
+
+<ul>
+<li>Text may be drawn not with fonts but with vector shapes or in an image.
+    Use OCR software to extract this text.
+<li>Some documents may not have any text.  Paper scanned into images or PDF can be such a case.
+    (Scanned paper can have OCR text hidden behind the paper image, and this tool will find that text.)
+<li>Text may not have a Unicode mapping.
+    PDF Type 3 fonts often do not, and TeX DVI has characters that do not have Unicode equivalents.
+<li>The Unicode encoding may be buggy.
+    Open Office maps some characters into the same Unicode, resulting in apparant letter dropping and doubling.
+<li>Some formats, such as PDF, can draw text out of reading order &mdash; in any order in fact.
+    Text is extracted as it is encountered in the source.
+    Further analysis by the user using layout coordinates can try to recover reading order.
+</ul>
+
+<p>PDF, especially, is susceptible to the above, so before reporting a bug check against a copy-and-paste in Acrobat.
+
+
+<h4>Performance</h4>
+Performance is generally excellent due to various technical optimizations, 
+ranging from buffered I/O to skipping non-text elements such as images.
+If using this tool for mass text extraction, you should start <code>java</code> with the <code>-server</code> flag
+(note this flag is given to Java, as opposed to this tool):
+<blockquote><code>java -server tool.ExtractText <var>[options]</var> <var>files</var></code></blockquote>
+
+<p>While extraction on most formats is extremely fast,
+PDF takes more time because text is stored in fragments usually without spaces, 
+and it must be analyzed to reassemble words and lines.
+Also, options that request layout and other options require more work and therefore more time.
+This tool first collects all text in a given document before returning it all at once;
+for PDFs that are complex and have many pages, this can take a minute or more.
+
+</body>
+</html>

@@ -1,0 +1,151 @@
+<html>
+<head>
+<title>Multivalent Tools: PDF Impose</title>
+<style>
+@import url("../../style.css");
+</style>
+<meta name='keywords' content='pdf,imposition,free' />
+</head>
+
+<body>
+
+<h2 id='Impose'>Impose</h2>
+
+Imposition arranges one or more existing pages onto another page.
+In its simplest form, it's n-up, such as shrinking 4 pages onto 1 to save paper when printing.
+It's easy to arrange pages and rotations for booklets.
+More sophisticated use of the tool can rearrange and rotate pages to produce complex layouts, 
+as for folded brochures.
+
+
+
+<h3>Options</h3>
+
+<blockquote><code>java tool.pdf.Impose <i>[options]</i> <var>PDF-file</var></code></blockquote>
+
+<ul class='options'>
+<li id='nup'><span class='opt'>-nup</span> -- 
+Shortcut for common layouts:
+<code>2</code> source pages per new page, <code>4</code>, <code>6</code>, <code>9</code>, <code>16</code>.  
+Slides work well with the 2x3 layout given by <code>6</code>, which automatically applies 90 degree rotation.
+Default: <code>4</code>.
+
+<li id='dim'><span class='opt'>-dim[ensions] <var>columns</var>x<var>rows</var></span> -- 
+specify rows and columns, e.g., <code>2x3</code>.  Default: <code>2x2</code>.
+
+<li id='layout'><span class='opt'>-layout</span> -- 
+provides full control over page sequence and rotation.
+In the grid specified by <span class='opt'>-dimension</span>,
+pages are placed into cells until the page fills up, and then a new page and grid is started.
+
+<ul>
+<li>A regular flow of pages across cells
+can be specified simply, with one or two letters:
+left-to-right with <code>l</code> or right-to-left with <code>r</code>,
+and top-to-bottom with <code>t</code> or bottom-to-top with <code>b</code>.
+The first letter is the overall direction, and the second letter the direction within the overall flow.
+For example, <code>lt</code> specifies the common left to right, top to bottom flow.
+Default: <code>lt</code>.
+
+<li>Alternatively, complex sequencing is possible.
+In the grid, cell positions are implicitly numbered left to right, top to bottom.
+For example, a 2x3 grid is numbered as follows:
+<pre>1 2
+3 4
+5 6</pre>
+Then sequence incoming pages onto the cells with a number sequence
+in which the first number of the sequence maps to position 1 in the grid, the second number to position 2, and so on.
+For example, you can flow source pages top to bottom in the first column, followed by bottom to top in the second with 
+the following sequence  <code>1,3,5,6,4,2</code>.
+
+<p>After each number, an optional letter specifies a rotation:
+<code>r</code> after number to rotate right (clockwise by 90 degrees), <code>l</code> for left (counterclockwise by 90 degrees), <code>u</code> upside down (180 degrees).
+An <code>x</code> leaves that spot in the grid blank.
+</ul>
+
+<p>Layout can spill over an integral number of dimensions.
+For example, on 2x2 grid (4 cells), <code>1,2,3,4,8u,7u,6u,5u</code>.
+See <a href='Impose.html#examples'>below</a> for examples.
+
+<li id='page'><span class='opt'>-page <a href='http://multivalent.sourceforge.net/Tools/HowToRun.html#range'><var>range</var></a></span> --
+selects pages from source PDF.
+PDF page numbers refer to physical pages, not logical numbers or the numbers printed on the pages,
+and are numbered from 1 to the total number of pages.
+A blank page can be inserted with the special case page number of <code>x</code>.
+Pages can be reordered, so if for a booklet's folding you need the last page and first page to be on the same piece of paper,
+you can sequence them like so: <code>-page 8,1,2,7,6,3,4,5</code>.
+
+<li id='cropbox'><span class='opt'>-cropbox</span> --
+use the page cropbox rather than mediabox
+
+<li id='sep'><span class='opt'>-sep[arator] <var>number</var></span> -- 
+width of separation lines between pages, or <code>0</code> for no lines.
+Default: <code>0</code>.
+
+<li id='margin'><span class='opt'>-margin</span> -- 
+additional space around all four sides of each page
+
+<li id='paper'><span class='opt'>-paper <a href='http://multivalent.sourceforge.net/Tools/HowToRun.html#papers'><var>paper-size</var></a></span> -- 
+specify output paper size.
+Default: same size as first page to impose.
+
+
+<li id='password'><span class='opt'>-password <var>password</var></span> -- password if PDF is encrypted
+
+<li id='verbose'><span class='opt'>-verbose</span> -- 
+displays the layout matrix to help debug complex layouts
+
+</ul>
+
+<p>Double-sided printing can be done with <a href='Split.html'>Split</a>.
+
+<p>The imposition is named with <code>-im</code> appended to the original file name.
+
+<p>Note that imposing drops annotations (including hyperlinks) and bookmarks/outlines.
+
+
+
+<h3 id='examples'>Examples</h3>
+
+<p>1. The default operation is very simple and produces the common case of shrinking 4 source pages to one new page.
+
+<p><code>java tool.pdf.Impose Annotations.pdf</code>
+
+
+<p>2. Common paste-ups are conveniently available with <span class='opt'>-nup</span>.
+
+<p><code>java tool.pdf.Impose -nup 6 -sep 1 Annotations.pdf</code>
+
+<p>produces 
+
+<p><img src='Impose2x3.png'>
+
+
+<p>3. Complete control over page sequence and rotation.
+
+
+<p><pre>java tool.pdf.Impose -verbose -dim 3x5 -paper A4 -layout "x,1,7u,2,8u,3,10l,4,11r,x,12,5,x,6,x" Annotations.pdf</pre>
+
+<p>produces the layout matrix
+<pre> 0 1 7
+ 2 8 3
+ 10 4 11
+ 0 12 5
+ 0 6 0</pre>
+
+and
+
+<p><img src='Impose3x5.png'>
+
+
+<p>4. Create an 8-page booklet on two pieces of paper printed front and back and folded in half.
+(Example from Andrew Roach.)
+
+<p><pre>java tool.pdf.Impose -dim 2x1 -page 8,1,2,7,3,6,4,5 docs.pdf</pre>
+
+<p>5. Print business cards, by making a grid 4 wide and 10 high and copying the page 40 times.
+
+<p><pre>java tool.pdf.Impose -dim 4x10 -page "1*40" docs.pdf</pre>
+
+</body>
+</html>

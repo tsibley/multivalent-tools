@@ -1,0 +1,35 @@
+<html>
+<head>
+<title>Multivalent Tools</title>
+<style>
+@import url("../../style.css");
+</style>
+</head>
+
+<body>
+
+<h2 id='LexSig'>Lexical Signature</h2>
+
+Generate a <dfn>lexical signature</dfn> for given document.
+See <a href='http://www.cs.berkeley.edu/~phelps/Robust/'>Robust Hyperlinks</a> web site for details.
+
+
+<h3>Options</h3>
+
+<blockquote><code>java tool.doc.LexSig <i>[options]</i> <var>URL-or-file</var></code></blockquote>
+
+<ul class='options'>
+<li><span class='opt'>-verbose</var></span> &mdash; 
+display computations.  Default: on, since word frequency gathering can be lengthy.
+<li><span class='opt'>-quiet</var></span> &mdash; 
+opposite of <span class='opt'>-verbose</var></span>
+<!-- <li>-check &mdash; check efficacy by looking up signature in various web search engines. -->
+</ul>
+
+
+<h3>See Also</h3>
+
+To automatically rewrite HTML pages to use Robust Hyperlinks, see <a href='http://multivalent.sourceforge.net/Tools/html/RobustSigner.html'>tool.html.RobustSigner</a>.
+
+</body>
+</html>

@@ -1,0 +1,67 @@
+<html>
+<head>
+<title>Multivalent Tools: PDF Uncompact</title>
+<style>
+@import url("../../style.css");
+</style>
+</head>
+
+<body>
+
+<h2 id='Uncompact'>PDF Uncompact</h2>
+
+<h3>Users</h3>
+
+Uncompact rewrites PDF files from Compact PDF format into standard PDF format.
+To use, simply double click on the <code>Uncompact.jar</code> file
+and select the PDFs to uncompact from the file selection box.
+Alternatively, it can be run from the command line: <code>java -jar Uncompact.jar <var>PDF-files</var></code>.
+The uncompressed version of the PDF, which relaces the Compact PDF version,
+is the same size as the original PDF before Compact-ification.
+
+<p><a href='Uncompact.html'>DOWNLOAD</a>
+
+
+
+<h3>Publishers</h3>
+
+<p>The <a href='http://multivalent.sourceforge.net/Tools/pdf/Compress.html'>Compress</a> tool can produce the highly compressed Compact PDF format.
+Compact PDF is often much smaller than what can be produced by Adobe's PDF 1.5 definition, or by any general-purpose compressor such as Flate/gzip or RAR.
+At this time Compact files can be directly viewed in Multivalent Browser and manipulated by the Multivalent PDF tools,
+but not by other PDF software.
+
+<p>Uncompact is distributed as a free, small (xxK) package
+so that publishers can save bandwidth or disk space on CD by distributing documents in the highly compressed Compact PDF format,
+and users can conveniently uncompress them.
+This is similar to distributing files compressed as <code>.zip</code> or <code>.gz</code> or <code>.rar</code>,
+and requiring a separate uncompressor.
+In this case, the uncompressor is tuned to PDF and can deliver much smaller file sizes on many classes of PDF,
+and furthermore the uncompressor is written in Java, so it runs Solaris, Linux, Macintosh OS X, Windows, and elsewhere.
+
+Compress -old.
+
+
+<p>Works great for large documents,
+especially books that are mostly text.
+
+<table border='1' width='95%'>
+<tr><th><th>Original Size (bytes)<th>gzip<th>.zip<th>Compact PDF
+<tr><td><a href='Uncompact.html'>Practical File System Design</a><td>1156619<td>1004934<td>1005079<td>571882 (50%)
+<tr><td>Java Developers Journal Vol 8, Num <td>
+<tr><td>Real World Go Live<td>18,530,903<td>15,692,402<td><td>12,800,412 (30%)
+<tr><td>pdfxguide.pdf<td>10,243,070<td>8,325,458<td><td>4,385,093 (57%)
+<tr><td>Manning JDK 1.4<td>10,168,352<td>8,871,949<td><td>2,999,054 (70%)
+</table>
+
+
+
+<h3>Technical Note</h3>
+
+Compact PDF can also be uncompressed with the PDF Compress tool in the Multivalent Document Tools suite
+with the following command:
+<blockquote><code>java.tool.pdf.Compress -force -inplace <var>PDF-file</var></code></blockquote>
+which, because lacks -compact flag, writes in standard PDF format.
+
+
+</body>
+</html>

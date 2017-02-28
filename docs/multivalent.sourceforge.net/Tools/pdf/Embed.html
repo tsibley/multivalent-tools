@@ -1,0 +1,42 @@
+<html>
+<head>
+<title>Multivalent Tools: PDF Embed</title>
+<style>
+@import url("../../style.css");
+</style>
+</head>
+
+<body>
+
+<h2 id='Embed'>Embed</h2>
+
+Take a PDF with references to external files and
+embed all the data into a single PDF that can be easily distributed.
+
+<ul>
+<li>embed related files or source documents that were processed to generate the PDF
+<li>split off images, edit, recombine
+<li>share big objects, e.g., fonts and images
+</ul>
+
+
+<h3>Options</h3>
+
+<blockquote><code>java tool.pdf.Embed <i>[options]</i> <var>PDF-file(s)</var></code></blockquote>
+
+<ul class='options'>
+<li id='max'><span class='opt'>-max <a href='http://multivalent.sourceforge.net/Tools/HowToRun.html#size'><var>size</var></a></span> -- 
+maximum size of object that will be embedded.
+With this option, most files can be embedded, except for that 20MB video.
+(Default: no limit.)
+
+<!--
+<li id='verbose'><span class='opt'>-verbose</span> -- 
+-->
+
+<li id='password'><span class='opt'>-password <var>password</var></span> -- 
+password if PDF is encrypted
+</ul>
+
+</body>
+</html>

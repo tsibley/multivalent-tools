@@ -1,0 +1,114 @@
+<html>
+<head>
+<title>Multivalent Tools: PDF Extract</title>
+<style>
+@import url("../../style.css");
+</style>
+</head>
+
+<body>
+
+<h2 id='Extract'>Extract</h2>
+
+Extract various objects, such as images and "embedded file streams" (see PDF Reference section 3.10.3), into external files.
+Also, developers can easily extract arbitrary objects stripped of encryption and compression filters.
+
+<ul>
+<li>images
+<li>fonts
+<li>embedded file streams
+</ul>
+
+
+and optionally unembed images and fonts and other large objects into external files.
+A new, valid PDF is produced that is smaller than the original because it points to the external files rather than embedding that data.
+Extracted objects are checked against files in the current directory
+and if an identical file is found, it is shared, rather than making a new file with the same data.
+
+<ul>
+<li>obtain files, such as images or the original HTML if the PDF conversion embedded it
+<li>edit the external files (for example, images in an image editor), and then re-<a href='Embed.html'>Embed</a> the changes
+<li>reduce disk space by sharing common images and fonts among PDFs
+</ul>
+
+
+<h3 id='options'>Options</h3>
+
+<blockquote><code>java tool.pdf.Extract <i>[options]</i> <var>PDF-file(s)</var></code></blockquote>
+
+<ul class='options'>
+<li>Object selection
+<ul>
+<li id='font'><span class='opt'>-embed</span> -- 
+extract embedded files
+
+<li id='font'><span class='opt'>-font</span> -- 
+extract (unsubsetted) fonts
+Note that text is sometimes constructed from from vector drawings, not as text.
+CFF not common in external files.
+
+<li id='image'><span class='opt'>-image</span> -- 
+extract images
+Note that graphical shapes can be vector drawings, not images.
+Note that images in PDF often store to match its coordinate system, with Y coordinates going up, 
+which is upside down in other image viewers and editors.
+
+<!-- v2.0 maybe, or TIFF wrapper for FAX
+<li id='format'><span class='opt'>-format <var>format</var></span> -- convert images to type <var>format</var>, such as PNG.
+The number of formats can be expanded by installing Sun's <a href='../../downloads#optional'>Java ImageIO</a> library.
+If no <var>format</var> displays formats available and exits.
+-->
+
+<li id='streams'><span class='opt'>-streams</span> -- 
+extract all streams, including fonts, images, videos, and content command streams
+
+</ul>
+
+<li>Restriction
+<ul>
+<li id='page'><span class='opt'>-page <a href='http://multivalent.sourceforge.net/Tools/HowToRun.html#range'><var>range</var></a></span> --
+extract objects from selected pages
+Objects by multiple pages are extracted only once.
+
+<li id='min'><span class='opt'>-min <a href='http://multivalent.sourceforge.net/Tools/HowToRun.html#size'><var>size</var></a></span> -- 
+minimum size of object that will be extracted.
+Default: <code>0</code>
+
+</ul>
+
+<li>Write new PDF
+<ul>
+<li id='edit'><span class='opt'>-edit</span> -- 
+write new PDF file that points to extracted objects.
+Extracted objects are written in a form that can be edited,
+but which cannot be used directly by PDF, so the new PDF is invalid.
+For example, image data may need a wrapper for some valid format.
+After editing, <a href='Embed.html'>Embed</a> can follow the pointers in the PDF
+and rewrite the extracted, edited objects to build a valid PDF.
+
+<li id='share'><span class='opt'>-share</span> -- 
+write a new valid PDF file that points to extracted objects.
+Objects are in a form needed by direct use by PDF,
+which may not be easily editable.
+
+</ul>
+
+<li id='cache'><span class='opt'>-cache <var>directory</var></span> -- 
+directory in which to place extracted files and objects.
+For example, if splitting off fonts only, this directory could be the font library.
+Default: current directory.
+
+<!--
+<li id='verbose'><span class='opt'>-verbose</span> -- 
+-->
+
+<li id='obj'><span class='opt'>-obj <a href='http://multivalent.sourceforge.net/Tools/HowToRun.html#range'><var>range</var></span> --
+just dump objects to stdout, unaffected by restrict / rewrite / cache.
+For use by developers.
+
+<li id='password'><span class='opt'>-password <var>password</var></span> -- 
+password if PDF is encrypted
+</ul>
+
+</body>
+</html>

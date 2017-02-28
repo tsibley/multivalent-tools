@@ -1,0 +1,150 @@
+<html>
+<head>
+<title>Multivalent Tools: PDF Validate</title>
+<style>
+@import url("../../style.css");
+</style>
+</head>
+
+<body>
+
+<h2 id='Validate'>Validate</h2>
+
+Examines PDFs at a selectable level of detail and reports errors.
+Quickly check for invalid or damaged PDFs in your archive,
+or validate a freshly downloaded bunch of PDFs.
+<!--
+after Uncompress and edit.
+It can also be used programmatically by PDF generators.
+
+useful if collect reports or papers for a conference
+and may not read right away but want to make sure will have no problems
+when you do.
+-->
+<!--
+checks digital signature
+
+(4) developer: logical for PDF writers
+-->
+
+
+<h3>Options</h3>
+
+<blockquote><code>java tool.pdf.Validate <i>[options]</i> <var>PDF-file(s)</var></code></blockquote>
+
+<ul class='options'>
+<li>validation level (choose one)
+<ul>
+<li id='quick'><span class='opt'>-fast</span> --
+Validate a PDF
+by checking whether its structure is valid.
+However, the content itself, such as images and content streams, is not read.
+Since structure and content are intermixed, this is usually sufficient to check
+for a successful network transmission.
+This option is useful for checking 1000s or more PDFs quickly.
+
+<li id='full'><span class='opt'>-full</span> -- 
+Reads the contents of every object in a PDF.
+(Default.)
+
+<li id='full'><span class='opt'>-obj</span> -- 
+Tests semantic integrity of objects.
+<ul>
+<li>Links (annotations and actions) - 
+check that link destinations (both internal and external) exist.
+And check that the source boxes of links do not overlap one another.
+<!-- This subfeature is more than equivalent to the ARTS Link Checker. -->
+<!--
+<li id='links'><span class='opt'>-links</span> -- 
+check that named destinations exist, check action types GoTo and A and AA, check that GoToR destination exists and destination page is valid, report overlapping link bounding boxes
+-->
+<li>actions: GoTo, GoToR, Launch, URI
+
+<!--
+<li id='author'><span class='opt'>-author</span> -- 
+Report 
+<ul>
+<li>links to null or non-existent destinations named destinations
+(The compress removes such links by default;
+its <span class='opt'>-nullnamederr</span> option
+displays them in a red box.)
+<li>overlapping links, so one cancels out the other
+(The compress command removes the cancelled link.)
+</ul>
+
+<li id='developer'><span class='opt'>-dev</span> -- 
+Useful for developers of PDF authoring software,
+validates minute technical details.
+-->
+</ul>
+
+
+</ul>
+
+<!--
+<li id='verbose'><span class='opt'>-verbose</span> -- provide technical details of how PDF is invalid => don't know much that isn't reported in concise message in ParseException 
+
+-->
+
+
+<li id='verbose'><span class='opt'>-verbose</span> -- 
+Report names of valid files as well as invalid ones.
+
+<li id='password'><span class='opt'>-password <var>password</var></span> -- 
+password if PDF is encrypted
+</ul>
+
+<!--
+<p>Invalid files might be partially recoverable with the repair command.
+-->
+
+
+<h3 id='examples'>Examples</h3>
+
+<p>1. fast check finds files mislabeled with <code>.pdf</code> suffix
+
+<pre>java tool.pdf.Validate -fast .</pre>
+
+produces
+
+<pre>
+/Users/phelps/data/pdfdb/000137.pdf: java.io.IOException: No document catalog.
+invalid password /Users/phelps/data/pdflr/secure2.pdf
+File: /Users/phelps/data/pdfdb/000055.pdf
+ERROR: invalid but repairable (with tool.pdf.Repair)
+File: /Users/phelps/data/pdfdb/000109.pdf
+ERROR: can't find '%%EOF' @ byte 3187
+File: /Users/phelps/data/pdfdb/000217.pdf
+ERROR: can't find '%%EOF' @ byte 20705
+</pre>
+
+
+<p>2. full read of objects, which is the default level of validation
+
+<pre>java tool.pdf.Validate jdj</pre>
+
+produces
+
+<pre>
+File: jdj/4-06.pdf
+ERROR.  object #154: java.io.IOException: incorrect data check @ 10730
+#154: {Length=4114, Filter=FlateDecode, DATA=573053}
+File: jdj/5-06.pdf
+ERROR.  object #25: java.io.IOException: invalid bit length repeat @ 0
+#25: {Length=13735, Filter=FlateDecode, DATA=1346607}
+</pre>
+
+
+<!--
+<p>3. links
+
+<pre>java tool.pdf.Validate -links .</pre>
+
+produces
+
+<pre>
+</pre>
+-->
+
+</body>
+</html>

@@ -1,0 +1,88 @@
+<html>
+<head>
+<title>Multivalent Tools: HTML Massage</title>
+<style>
+@import url("../../style.css");
+</style>
+</head>
+
+<body>
+
+
+<h2 id='Massage'>HTML Massage</h2>
+
+<ul>
+<li>correct HTML
+<li>convert HTML to XHTML automatically
+<li>compact HTML
+<li>pretty print HTML
+<li>writes links relative
+<li>write HTML with hooks for Section 508 compliance
+</ul>
+
+
+
+<h3>Options</h3>
+
+<blockquote><tt>java tool.html.Massage [-xhtml|-prettyprint|-compact] [-prettyprint] [<URL>] [<filename>]</tt></blockquote>
+
+
+<ul class='options'>
+<li><span class='opt'>-prettyprint</span>
+indents according to the nesting level of the tag in the parse tree
+
+<li><span class='opt'>-xhtml</span> --
+writes XHTML compatible output (tags balanced, attribute
+values quoted, terminated empty tags, "name"=>"id", no ampersand in
+attribute values, and so on).  See <a href="http://www.w3.org/TR/xhtml1/">XHTML 1.0 Spec</a>)
+
+<li><span class='opt'>-relative <var>base-URL</var></span> -- make hyperlinks relative to <var>base-URL</var>,
+which is directory which corresponds to the top of the web site
+
+<li><span class='opt'>-usability</span> checks for like no ALT on IMG, no TITLE on tables, and
+other things that hinder usability for some.  See <a
+href="http://www.w3.org/TR/1999/WAI-WEBCONTENT-19990505/">Web Content
+Accessibility Guidelines 1.0</a>.
+
+<li><span class='opt'>-perfect</span> or <span class='opt'>-all</span> 
+turns on all of the above
+
+<li><span class='opt'>-stdout</span> renders transformed page to text screen instead of
+rewriting disk file
+
+<li><span class='opt'>-verbose</span> lists files as they are rewritten, lists linked-to pages
+as they are signed, and shows the signature or reason the page was not
+signed (host was not available, protocol was news, mailto, telnet,
+javascript).  -verbose is on by default.
+
+<li><span class='opt'>-quiet</span> is the opposite of -verbose
+
+<li><span class='opt'>-version</span> write the version of this class and immediately exits
+
+<!--
+
+<li><span class='opt'>-style</span> --
+analyzes &lt;font&gt; tags and converts into a style sheet
+LATER: compute style sheets from use of FONT tag, -stats to collect
+statistics of tag and attribute use
+-->
+</ul>
+
+<!--
+<p>By default, the page receives the full set of fixes. Individual
+ones can be turned off by giving as a command-line option the name of
+the feature prefixed by "no", as in "-noprettyprint".  Alternatively,
+all features can be turned off with "-only", then <i>after</i> the
+-only option, turning them on one-by-one, as in "-prettyprint".
+-->
+
+
+<h3>See Also</h3>
+
+<a href='http://www.w3.org/People/Raggett/tidy/'>Tidy</a>,
+<a href='http://validator.w3.org/'>W3C HTML Validation Service</a>,
+<a href='http://mercury.ccil.org/~cowan/XML/tagsoup/'>TagSoup</a>
+
+
+</body>
+</html>

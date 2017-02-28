@@ -1,0 +1,153 @@
+<html>
+<head>
+<title>Multivalent Tools How To</title>
+<style>
+@import url("../style.css");
+</style>
+</head>
+
+<body>
+
+<h2>How to Run Tools</h2>
+
+<p>All tools run from the command line in a shell
+with the following syntax:
+<blockquote><code>java tool.<var>XXX</var> <var>[options]</var> <var>files</var></code></blockquote>
+
+<p>Tools all live in the file <code>Multivalent.jar</code>,
+and that file is made visible to Java by adding its path to your <code>CLASSPATH</code>
+environment variable.  
+For example, for UNIX (including Mac OS X and Linux), depending on your shell,
+<code>setenv CLASSPATH $CLASSPATH:/path/to/Multivalent.jar</code> or <code>export CLASSPATH=$CLASSPATH:/path/to/Multivalent.jar</code>.
+Alternatively, you can set the classpath explicitly as an option, as in 
+<blockquote><code>java -classpath <var>/path/to/Multivalent.jar</var> tool.<var>XXX</var> <var>[options]</var> <var>files</var></code></blockquote>
+A third way is to put <code>Multivalent.jar</code> in Java's <code>lib/ext</code> directory.
+
+<p>If a tools stops with an <code>OutOfMemoryError</code>,
+it might have a perversely large object (such as an 8500x8500 pixel image -- 1000ppi!),
+so try boosting memory, as in:
+<blockquote><code>java -Xmx192m tool.<var>XXX</var> <var>[options]</var> <var>files</var></code></blockquote>
+
+
+<h3>Common Options</h3>
+
+<p>In the documentation for each command, 
+the set of options is described in a bullet list.
+In addition to tool-specific options, all tools support the following:
+<ul>
+<li><span class='opt'>-verbose</span> -- 
+There is a normal level of informative messages.  This option reports in greater detail.
+<li><span class='opt'>-quiet</span> -- to limit output to essential information.
+(This option is not the opposite of <span class='opt'>-verbose</span>.)
+<li><span class='opt'>-version</span> -- to show version of individual tool, which is different than the overall Multivalent version
+<li><span class='opt'>-help</span> -- to show the tool's syntax and options available
+</ul>
+
+<p>Other options and concepts are popular:
+<ul class='options'>
+<li><span class='opt'><var>file-or-directory</var></a></span> -- 
+Most tools that accept filenames also take directories
+and recursively process all files in those directories.
+
+<li id='range'><span class='opt'><var>range</var></a></span> or <span class='opt'><var>page-range</var></a></span> --
+list of numbers or pages
+<!--
+Grammar:
+number	::=	'-'? ['0'-'9']+
+simple	::= 	<number> | 'first' | 'last' | 'end'
+copies	::=	<simple> '*' <number>
+range	::=	<simple> | <simple>-<simple> | <range> (',' <range>)+ | 'all' | <empty> | 'odd' | 'even' | 'reverse'
+subrange::=	<range> '%' (<number> | 'odd' | 'even' | 'reverse')
+valid	::=	(<simple> | <range> | <copies> | <subrange>)+
+-->
+
+<ul>
+<li>single page by specifying page number (e.g., <code>10</code>), with first page numbered <code>1</code> (not <code>0</code>)
+<li>special name for last page (<code>last</code> or <code>end</code>) and first page (<code>first</code>)
+<li>range of consecutive numbers/pages by separating single pages with hyphen (e.g., <code>1-10</code>, or <code>37-last</code>)
+<li>logical groups: <code>all</code> pages, all <code>odd</code> or <code>even</code> pages, or all pages in <code>reverse</code> order
+<li>range in reverse order (e.g., <code>10-1</code>, <code>end-25</code>, <code>1-10%reverse</code>, <code>odd%reverse</code>)
+<li>every <var>n</var><sup>th</sup> page in <em>range</em>, by a percent sign and increment after range (e.g., <code>1-100%5</code> for every 5<sup>th</sup> page, <code>1000-1%100</code>, <code>1-100%odd</code>, <code>1-100%even</code>)
+<!--li>arbitrary resequencing (e.g., <code>8,1,2,7,6,3,4,5</code>)-->
+<li>multiple copies of <em>single</em> page, by a star and count after single page (e.g., <code>last*5</code>)
+<li>multiple pages or ranges separated with a comma (e.g., <code>1-3,5,1,odd,7-20</code>).
+</ul>
+
+<p>If tool, such as <code>tool.pdf.Split</code>, supports multiple groups:
+<ul>
+<li>separate groups with semicolon (e.g., <code>1-10,last;1,11-20,last</code>)
+<li>group by every <var>n</var> pages with slash and page count at end of range 
+(e.g., <code>/1</code> bursts into single pages, and <code>1-100/20</code> is short for <code>1-20;21-40;41-60;61-80;81-100</code>)
+</ul>
+
+<p>Advanced
+<ul>
+<li>back map from preexisting range to an order that will restore the original order.
+This applies to the entire series of ranges.
+For example, <code>odd,even</code> gives <code>1,3,5,7,9,2,4,6,8,10</code> on a ten page document,
+so <code>odd,even,backmap</code> gives <code>1,6,2,7,3,8,4,9,5,10</code>.
+When pages preexisting in the order <code>1,3,5,7,9,2,4,6,8,10</code>
+are selected in the order <code>1,6,2,7,3,8,4,9,5,10</code>,
+we recover the original order <code>1,2,3,4,5,6,7,8,9,10</code>.
+</ul>
+
+<li id='lengths'><span class='opt'><var>length</var></a></span> -- 
+lengths can be given with the following suffixes and units
+	<ul>
+	<li>metric: <code>m</code> (meters), <code>cm</code> (centimeters), <code>mm</code> (millimeters)
+	<li>English: <code>in</code> (inches), <code>ft</code> (feet), <code>mile</code> (miles)
+	<li>printers: <code>pt</code> (points -- 72.27/in), <code>sp</code> (scaled points -- TeX), <code>bp</code> (big points -- 72/in), <code>pc</code> (picas), <code>dd</code> (didot points), and <code>cc</code> (ciceros)
+	<li>screen: <code>px</code> (pixel -- according to current screen)
+	</ul>
+
+<li id='papers'><span class='opt'><var>paper-size</var></a></span> -- 
+paper size can be given by name from the following list:
+	<ul>
+	<li>American: <code>US</code> or <code>letter</code> (8.5x11in), <code>legal</code> (8.5x14in)
+	<li>ISO: <code>A0</code> - <code>A10</code>, <code>B0</code> - <code>B10</code>, <code>C0</code> - <code>C10</code>
+	<li><code>foolscap</code> (13.5x17in)
+	<li>explicit dimensions: <code><var>width</var>x<var>height</var></code>, with lengths as <a href='HowToRun.html#lengths'>above</a>
+	</ul>
+Paper sizes can also be given as explicit dimensions, in the following syntax:
+<var>width</var>x<var>height</var> <var>units</var>,
+where <var>units</var> is one of the length units given above.
+
+<li id='images'><span class='opt'><var>image-format</var></a></span> -- 
+images can be written in any of the following formats:
+	<ul>
+	<li><code>JPEG</code>
+	<li><code>PNG</code>
+	<li><code>JPEG2000</code>, <code>TIFF</code>, <code>PNM</code> and others -- if Java Advanced Imaging is <a href='http://multivalent.sourceforge.net/download.html#JAI'>installed</a>
+	<li><code>BMP</code> and <code>WBMP</code> are available with Java 1.5 or Java Advanced Imaging
+	</ul>
+
+<li id='size'><span class='opt'><var>size</var></a></span> -- 
+suffixes: 
+	<ul>
+	<li><code>k</code> / K / KB - kilobyte
+	<li><code>m</code> / M / MB - megabyte
+	<li><code>g</code> / G / GB - gigabyte
+	<li><code>t</code> / T / TB - terabyte
+<!--
+	<li><code>p</code> / p / PB - petabyte
+	<li><code>e</code> / e / EB - exabyte
+-->
+	</ul>
+
+</ul>
+
+
+<h3>Shortcuts</h3>
+
+<p>The lengthy syntax can be reduced to look like other commands
+by using your shell's aliasing capability.  For instance,
+for UNIX shell tcsh the following command 
+
+<blockquote><code>alias lsearch 'java -classpath /path/to/Multivalent.jar tool.lucene.Search -index /path/to/index '</code></blockquote>
+
+makes full-text search available with the short
+
+<blockquote><code>lsearch <var>words</var></code></blockquote>
+
+</body>
+</html>

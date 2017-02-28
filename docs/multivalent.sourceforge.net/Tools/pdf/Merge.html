@@ -1,0 +1,48 @@
+<html>
+<head>
+<title>Multivalent Tools: PDF Merge</title>
+<style>
+@import url("../../style.css");
+</style>
+</head>
+
+<body>
+
+<h2 id='Merge'>Merge</h2>
+
+Merge two or more PDFs into one.
+<!--
+If a non-PDF file type supported by <a href='Convert.html'>Convert</a>
+is given, it is spontaneously converted to PDF and merged.
+-->
+
+<p>Preserves named destinations, outlines, and interactive forms.
+If named destinations conflict,
+as when a PDF generator automatically generates generic names like "page.1" or "section.8",
+they are renamed.
+
+
+<h3>Options</h3>
+
+<blockquote><code>java tool.pdf.<b>M</b>erge <i>[options]</i> <var>PDF-filename</var> <var>PDF-filename...</var></code></blockquote>
+
+<ul class='options'>
+<li id='append'><span class='opt'>-append</span> -- append onto existing first file (else create new PDF).
+Files merged with this option can be unmerged with <a href='Undo.html'>Undo</a>.
+
+<li id='samedoc'><span class='opt'>-samedoc</span> -- declare that the PDFs to be merged should be considered a single document,
+as opposed to different documents collected into the same file.
+With this flag, bookmarks that refer to the same name are not considered conflicts,
+and outlines are lifted up one level to be at the same level across merged files.
+(Inspired by Steven Skoczen.)
+
+<li id='password'><span class='opt'>-password <var>password</var></span> -- password if PDF is encrypted.
+All documents to merge must have this password or no password.
+<!--li><span class='opt'>-out <var>file</var></span> -- name of merged file.  Default: <code>merge.pdf</code>-->
+</ul>
+
+In the absence of <span class='opt'>-append</span>,
+the merged version of the PDFs is named with <code>-m</code> appended to the first file name.
+
+</body>
+</html>

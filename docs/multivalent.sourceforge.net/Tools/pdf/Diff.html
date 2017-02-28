@@ -1,0 +1,43 @@
+<html>
+<head>
+<title>Multivalent Tools: PDF Diff</title>
+<style>
+@import url("../../style.css");
+</style>
+</head>
+
+<body>
+
+<h2 id='Diff'>Structural Differences</h2>
+
+Compare two PDFs and report <em>structural</em> differences.
+Two PDFs that are structurally identical should render the same,
+but may differ in the exact objects and whether they are inlined or referenced with an indirect reference.
+<code>Diff</code> can be used after some transformation,
+such as compression or encryption, 
+to verify that the PDF has not been otherwise modified.
+
+
+<h3>Options</h3>
+
+<blockquote><code>java tool.pdf.Diff <i>[options]</i> <var>PDF-filename</var></code></blockquote>
+
+<ul class='options'>
+<li id='ignoredates'><span class='opt'>-ignoredates</span> --
+<!--
+<li id='root'><span class='opt'>-root</span> -- often an object will not match only because it relies on another object that not match.
+This option ignores secondary differences and reports only the root objects.
+=> report some difference but doesn't try to match as many objects as possible anymore because that's too slow
+-->
+<li id='password1'><span class='opt'>-password1 <var>password</var></span> and 
+<span class='opt'>-password2 <var>password</var></span> -- password for first and second PDF, respectively
+<li id='page1'><span class='opt'>-page1 <a href='http://multivalent.sourceforge.net/Tools/HowToRun.html#range'><var>range</var></a></span>
+and <span class='opt'>-page2 <a href='http://multivalent.sourceforge.net/Tools/HowToRun.html#range'><var>range</var></a></span> -- 
+password for first and second PDF, respectively.
+If one range is missing, it is set to the other range.
+If both ranges are set, they must have the same number of pages.
+If ranges are set, then those pages are compared only; no other information in the PDFs are affect equality determination.
+</ul>
+
+</body>
+</html>

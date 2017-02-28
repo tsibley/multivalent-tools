@@ -1,0 +1,83 @@
+<html>
+<head>
+<title>Multivalent Tools: Robust Hyperlink Signer</title>
+<style>
+@import url("../../style.css");
+</style>
+</head>
+
+<body>
+
+<!--
+<p>URLs can be made robust so that if a web page moves to another
+location anywhere on the web, you can find it.  Even if that page has
+been edited.  (If the page has been deleted, and no mirrors are
+available, you'll have to try something else, obviously.)  Today's
+address-based URLs are augmented with a five or so word content-based
+<i>lexical signature</i> to make a <b>Robust Hyperlink</b>.  When the
+URL's address-based portion breaks, the signature is fed into any web
+search engine to find the new site of the page.  Although web browser
+support is desirable for complete convenience, Robust Hyperlinks work
+<i>now</i>, as drop-in replacements of URLs in <i>today</i>'s HTML,
+web browsers, web servers and search engines.  See the <a
+href="http://www.cs.berkeley.edu/~phelps/Robust/" TARGET="INFO">Robust
+Web Site</a> for complete details.
+
+<!-- later (server better but not happening)
+<p>This free, Open Source software can rewrite your web pages and
+bookmarks files to make them robust, automatically.  URLs within
+HTML's A HREF and other tags are augmented with the lexical signature
+and all other text is left untouched.  (This software can be run as a
+text-based application by suppling the option -textmode on startup.)
+
+<p>
+
+<hr>
+
+<p>
+<form method="event">
+<b>Name of file or directory tree (with .html and .htm files) to rewrite:</b>
+<input type="file" name="file">
+
+<p><b>Options</b><br />
+<input type="checkbox" name="force" value="on">Force signing of URLs even if already signed</input><BR>
+
+<p><b><input type="submit" value="Make Robust"></b>
+
+</form>
+-->
+
+
+
+
+
+
+<h2 id='Robust'>Robust Hyperlink Signer</h2>
+
+Automatically rewrite HTML pages to make their hyperlinks robust.
+Recurses directories and rewrites links in files named ".html" and ".htm"
+to make their links robust.
+The page rewriting only touches links &mdash; all other text is left untouched.
+See <a href='http://www.cs.berkeley.edu/~phelps/Robust/'>Robust Hyperlinks</a> web site for details.
+
+<h3>Options</h3>
+
+<blockquote><code>java tool.html.Robust <i>[options]</i> <var>URL</var> [<var>filename</var>]</code></blockquote>
+
+<ul class='options'>
+<!--li><span class='opt'>-siglen <var>number</var></span> -- 
+number of words in signature -->
+<li><var>URL</var> is taken as the base URL
+</ul>
+
+<!--
+<var>URL</var> gives the HTTP URL corresponding to <filename>, and it
+used to resolve links relative to the local site root (as in
+"http:/images/img.png").  If the HTML contains no such links, as in a
+bookmarks file, <var>URL</var> may be omitted, but do so at your own risk.  If
+you'd like, you can make a copy or revision control checkpoint of the
+file/directory tree first.
+-->
+
+</body>
+</html>

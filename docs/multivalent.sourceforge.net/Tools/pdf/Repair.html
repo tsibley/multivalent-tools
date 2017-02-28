@@ -1,0 +1,45 @@
+<html>
+<head>
+<title>Multivalent Tools: PDF Repair</title>
+<style>
+@import url("../../style.css");
+</style>
+</head>
+
+<body>
+
+<h2 id='Repair'>Repair Damaged PDFs</h2>
+
+Repair.  If Adobe Acrobat reports for a particular PDF "errors" 
+that it must fix before displaying the first page, a simple 
+pass through this tool fixes that.
+
+if corrupted, hopeless.
+
+Tries to read PDF data objects sequentially, rather than relying on
+usual file structure for random access, and collects all intact objects.
+
+xref table exact byte offsets
+
+<ul>
+<li>transferred in ASCII
+<li>uncompressed and edited
+</ul>
+
+
+side-effect of other PDF tools
+does what Acrobat does, as far as I can tell
+e.g., Compress if fix and go, Uncompress if damage great and you know something about PDF to further fix.
+
+
+<h3>Options</h3>
+
+<blockquote><code>java tool.pdf.Repair <i>[options]</i> <var>PDF-filename</var></code></blockquote>
+
+<!--ul>
+<li id='out'><span class='opt'>-out[file]</span> --  (default: <tt><var>name</var>-repair.pdf</tt>)
+</ul-->
+
+
+</body>
+</html>

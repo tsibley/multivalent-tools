@@ -1,0 +1,109 @@
+<html>
+<head>
+<title>Multivalent Tools: PDF Info</title>
+<style>
+@import url("../../style.css");
+</style>
+</head>
+
+<body>
+
+<h2 id='Info'>Info</h2>
+
+Display various information about a PDF document:
+title, author, page count, page size, metadata.
+
+
+<h3>Options</h3>
+
+<blockquote><code>java tool.pdf.Info <i>[options]</i> <var>PDF-file...</var></code></blockquote>
+
+<ul class='options'>
+<li id='general'><span class='opt'>-general</span> -- display general metadata.  Default.
+
+<li id='image'><span class='opt'>-image</span> -- display image metadata
+
+<li id='anno'><span class='opt'>-anno</span> -- display annotations 
+
+<li id='font'><span class='opt'>-font</span> -- 
+display fonts.
+The columns refer to the font name, type, encoding, embedded or not, 
+subset character set or not, has <code>/ToUnicode</code> mapping or not, and object number.
+With <span class='opt'>-verbose</span>, also reports number of glyphs in embedded fonts and the pages on which that font is used.
+Note that sometimes a PDF has duplicate embedded fonts with different subsets.
+
+<li id='meta'><span class='opt'>-meta</span> -- 
+display embedded XML metadata record, if any
+
+<li id='all'><span class='opt'>-all</span> -- turn on all of the above options
+
+
+<li id='label'><span class='opt'>-label</span> -- label each line with the PDF file name.
+This is useful for displaying info on lots of PDFs and filtering out interesting features,
+which can be tracked back to the source PDF given in the label.
+For instance, if you wanted to see which of your PDFs were protected with weak
+encryption, you could type, under UNIX, <code>java tool.pdf.Info -label . | grep 'Encrypted.*40'</code>.
+Or if you wanted to make sure all encrypted PDFs in some collection to be published were
+restricted against printing, <code>java tool.pdf.Info -label . | grep restrictions | grep -v print</code>.
+
+<li id='verbose'><span class='opt'>-verbose</span> -- 
+report additional information, depending on information category
+
+<li id='password'><span class='opt'>-password <var>password</var></span> -- password if PDF is encrypted
+
+</ul>
+
+
+<h3 id='examples'>Examples</h3>
+
+<p>1. Show general and font info.
+
+<pre>java tool.pdf.Info -general -font bullet.pdf</pre>
+
+produces
+
+<p><pre>Filename: bullet.pdf
+Title: Microsoft PowerPoint - research.ppt
+Author: wilensky
+Creator: ADOBEPS4.DRV Version 4.50
+Producer: Acrobat Distiller 5.0.5 (Windows)
+Created: Fri Nov 01 11:28:23 PST 2002
+Page count: 1
+PDF version: 1.3
+metadata
+Linearized: version 1
+&lt;?xpacket begin='' id='W5M0MpCehiHzreSzNTczkc9d' bytes='1094'?&gt;&lt;rdf:RDF xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns#' xmlns:iX='http://ns.adobe.com/iX/1.0/'&gt;&lt;rdf:Description about='' xmlns='http://ns.adobe.com/pdf/1.3/' xmlns:pdf='http://ns.adobe.com/pdf/1.3/' pdf:CreationDate='2002-11-01T19:28:23Z' pdf:ModDate='2002-11-01T19:28:23Z' pdf:Producer='Acrobat Distiller 5.0.5 (Windows)' pdf:Author='wilensky' pdf:Creator='ADOBEPS4.DRV Version 4.50' pdf:Title='Microsoft PowerPoint - research.ppt'/&gt;
+&lt;rdf:Description about='' xmlns='http://ns.adobe.com/xap/1.0/' xmlns:xap='http://ns.adobe.com/xap/1.0/' xap:CreateDate='2002-11-01T19:28:23Z' xap:ModifyDate='2002-11-01T19:28:23Z' xap:Author='wilensky' xap:MetadataDate='2002-11-01T19:28:23Z'&gt;&lt;xap:Title&gt;&lt;rdf:Alt&gt;&lt;rdf:li xml:lang='x-default'&gt;Microsoft PowerPoint - research.ppt&lt;/rdf:li&gt;&lt;/rdf:Alt&gt;&lt;/xap:Title&gt;&lt;/rdf:Description&gt;
+&lt;rdf:Description about='' xmlns='http://purl.org/dc/elements/1.1/' xmlns:dc='http://purl.org/dc/elements/1.1/' dc:creator='wilensky' dc:title='Microsoft PowerPoint - research.ppt'/&gt;
+&lt;/rdf:RDF&gt;&lt;?xpacket end='r'?&gt;
+
+FONT NAME                        TYPE          ENCODING      EMB SUB UNI   OBJ# 
+ComicSansMS                      TrueType      WinAnsi        Y   Y   N      10
+ZapfDingbats                     Type1         &lt;custom&gt;      --core 14--     15
+</pre>
+
+
+<p>2. Find all PDFs with weak (40-bit) encryption.
+
+<pre>java tool.pdf.Info -label *.pdf | grep 'Encrypt.*40'</pre>
+
+produces
+
+<p><pre>
+.../test/pdf/EyesWideShut.pdf: Encrypted: filter Standard (revision 2), 40-bit key, null password
+.../test/pdf/ManningJDK14.pdf: Encrypted: filter Standard (revision 2), 40-bit key, null password
+.../test/pdf/macos_x_intro_english.pdf: Encrypted: filter Standard (revision 2), 40-bit key, null password
+.../test/pdf/siu-bluesheet 2003_08_01.pdf: Encrypted: filter Standard (revision 2), 40-bit key, null password
+.../test/pdf/uskoubriti82802ind.pdf: Encrypted: filter Standard (revision 2), 40-bit key, null password
+</pre>
+
+
+<!--
+<p>3. Find all embedded, unsubsetted fonts.
+These PDFs are ripe for compression with <a href='Compress.html#subset'>Compress -subset</a>.
+
+<pre>java tool.pdf.Info -label *.pdf | grep 'Y   N   [YN]' | grep -v Type3</pre>
+-->
+
+</body>
+</html>

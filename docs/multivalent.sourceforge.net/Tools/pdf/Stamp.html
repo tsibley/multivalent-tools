@@ -1,0 +1,81 @@
+<html>
+<head>
+<title>Multivalent Tools: PDF Validate</title>
+<style>
+@import url("../../style.css");
+</style>
+</head>
+
+<body>
+
+<h2 id='Stamp'>Stamp and Watermark</h2>
+
+create PDF, merge onto each page.
+above = stamp, below = watermark
+escape codes in text
+
+
+
+<h3>Options</h3>
+
+<blockquote><code>java tool.pdf.Stamp <i>[options]</i> <var>PDF-file(s)</var></code></blockquote>
+
+<ul class='options'>
+<li id='stamp'><span class='opt'>-stamp</span> -- (Default)
+
+<li id='watermark'><span class='opt'>-watermark</span> -- (Default)
+
+
+<li id='page'><span class='opt'>-page <a href='http://multivalent.sourceforge.net/Tools/HowToRun.html#range'><var>number</var></a></span> --
+take stamp page from source PDF page <var>number</var>.
+This way can have sample books with many stamp or watermark pages, rather than lots of separate PDF files.
+
+<li id='page'><span class='opt'>-page <a href='http://multivalent.sourceforge.net/Tools/HowToRun.html#range'><var>range</var></a></span> --
+stamp/watermark pages in <var>range</var>
+
+<li id='page1'><span class='opt'>-page1 <var>number</var></span> -- 
+sets number of first page,
+for maintaining consecutive page numbers across documents
+
+
+<li id='inplace'><span class='opt'>-inplace</span> -- overwrite existing PDF,
+which is useful for multiple passes
+
+<li id='password'><span class='opt'>-password <var>password</var></span> -- password if PDF is encrypted
+</ul>
+
+
+<h3>Escape Codes</h3>
+
+Percent codes within source PDF.
+
+<ul>
+<li><code>%%</code> - percent character itself
+<li><code>%p</code> - page number
+<li><code>%P</code> - total number of pages
+<li><code>%d</code> - date
+<li><code>%</code> - ...
+<li><code>%</code> - 
+</ul>
+
+
+<h3>Library</h3>
+
+<p>Stamp
+
+<ul>
+<li><a href='Stamp.html'>page number</a> at bottom-right (A4 page)
+<li><a href='Stamp.html'>Bates number</a> at bottom-right (A4 page)
+</ul>
+
+
+<p>Watermark
+
+<ul>
+<li><a href='Stamp.html'>DRAFT</a> (A4 page)
+</ul>
+
+
+
+</body>
+</html>

@@ -1,0 +1,83 @@
+<html>
+<head>
+<title>Multivalent Tools</title>
+<style>
+@import url("../../style.css");
+</style>
+</head>
+
+<body>
+
+<h2 id='Search'>Full-text searching</h2>
+
+Construct a full-text index of all supported document types, including
+PDF, HTML and UNIX manual pages,
+and execute searches on it.
+These search and index tools interface Multivalent's support for many document formats with
+Doug Cutting's excellent
+<a href='http://jakarta.apache.org/lucene/docs/index.html'>Lucene</a>
+search engine.
+
+Install Lucene's JAR, <b>version 1.3 or later</b> (which is named something like <code>lucene-1.4-final.jar</code>),
+and add the complete path includig the Lucene JAR name it to your CLASSPATH environment variable or specify 
+it with invoking a tool withthe <code>-classpath</code> command-line optin.
+
+
+<h3>Index Options</h3>
+
+<blockquote><code>java tool.lucene.Index <i>[options]</i> <var>files-and-directories-to-index</var></code></blockquote>
+<ul class='options'>
+<li><span class='opt'>-new</var></span> &mdash; 
+create new index.
+Otherwise the index is incrementally updated.
+<li><span class='opt'>-refresh</var></span> -- 
+for every document in the index, 
+see if it has been modified or deleted,
+and update the index accordingly.
+No new files are added
+(any <code><var>files-and-directories-to-index</var></code> are ignored.)
+<li><span class='opt'>-index <var>directory</var></span> -- 
+directory in which to find the index created above.
+Default: directory named <code>.lucene</code> in the user's home directory.
+<li><span class='opt'>-exclude <var>regular-expression</var></span> -- 
+do not index any file whose path matches <var>regular-expression</var>
+</ul>
+<!--
+Directories under MS Windows are written with leading slash -- ?
+c:\j2sdk1.4.1\docs\api\
+
+
+-->
+
+
+<h3>Search Options</h3>
+
+<blockquote><code>java tool.lucene.Search <i>[options]</i> <var>expression-to-search-for</var></code></blockquote>
+
+<ul class='options'>
+<li><span class='opt'>-index <var>directory</var></span> -- 
+directory in which to place the index.
+Default: directory named <code>.lucene</code> in the user's home directory.
+
+<li><span class='opt'>-maxhits <var>number</var></span> -- 
+limit number of hits displayed to <var>number</var> of them.
+The special case <span class='opt'>-hits all</span>
+displays all hits.
+Default: 10.
+
+<li><span class='opt'><var>expression-to-search-for</var></span> -- 
+Single words/terms are given as is, phrases are surrounded by double quotes,
+and boolean are composed with AND and OR.
+See <a href='http://jakarta.apache.org/lucene/docs/queryparsersyntax.html'>Lucene query syntax</a>
+for more sophisticated searches.
+Fielded searches can refer to the fields <code>uri</code> to limit searches based on filename,
+<code>body</code> for body text, 
+and <code>mod</code> to limit searches based on file last modification date.
+</ul>
+
+<p>At this time full-text searching is not available graphically through
+the browser.
+
+
+</body>
+</html>

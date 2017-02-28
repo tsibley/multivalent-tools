@@ -1,0 +1,67 @@
+<html>
+<head>
+<title>Multivalent Tools: PDF Decrypt</title>
+<style>
+@import url("../../style.css");
+</style>
+</head>
+
+<body>
+
+<h2 id='Decrypt'>Decrypt</h2>
+
+Supply the owner password to decrypt PDFs with standard security, 40-bit or 128-bit keys.
+This does not decrypt Adobe eBooks, which use a different encryption mechanism.
+
+
+<h3 id='options'>Options</h3>
+
+<blockquote><code>java tool.pdf.<b>D</b>ecrypt <i>[options]</i> <var>PDF files or directories</var></code></blockquote>
+
+<ul class='options'>
+<li id='password'><span class='opt'>-password <var>password</var></span> -- 
+<em>owner</em> password.
+The null password is tried automatically.
+The password is checked for validity before applying it to the document content.
+
+<li id='inplace'><span class='opt'>-inplace</span> -- write decrypted PDF over existing
+
+<li id='out'><span class='opt'>-out[file]</span> -- in absence of 
+<span class='opt'>-inplace</span> 
+filename to use for decrypted PDF (default: <tt><var>name</var>-d.pdf</tt>)
+</ul>
+
+
+<h3 id='faq'>FAQ</h3>
+
+<p>Why is the OWNER password required to decrypt when I can I don't need a password to view the PDF?
+
+<p>In this case the user password is null, allowing access to the document according to the author permissions.
+Changing the author permissions -- which in any reasonable interpretation includes removing encryption! --
+requires the author password.
+Here is a quote from the Adobe's PDF Reference, fifth edition:
+
+<blockquote>
+1.5 Intellectual Property
+<p>The general idea of using an interchange format for electronic documents is in
+the public domain. Anyone is free to devise a set of unique data structures and
+operators that define an interchange format for electronic documents. However,
+Adobe Systems Incorporated owns the copyright for the particular data structures
+and operators and the written specification constituting the interchange format
+called the Portable Document Format. Thus, these elements of the Portable
+Document Format may not be copied without Adobe's permission.
+
+<p>...
+
+<p>The conditions of such copyright permission are:<br />
+&bull; Authors of software that accepts input in the form of the Portable Document
+Format must make reasonable efforts to ensure that the software they create respects
+the access permissions and permissions controls listed in Table 3.20 of
+this specification, to the extent that they are used in any particular document.
+These access permissions express the rights that the documents author has
+granted to users of the document. It is the responsibility of Portable Document
+Format consumer software to respect the authors intent.
+</blockquote>
+
+</body>
+</html>

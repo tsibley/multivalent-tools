@@ -1,0 +1,95 @@
+<html>
+<head>
+<title>Multivalent Tools: PDF Encrypt</title>
+<style>
+@import url("../../style.css");
+</style>
+</head>
+
+<body>
+
+<h2 id='Encrypt'>Encrypt</h2>
+
+Encrypt a PDF with the standard PDF security handler,
+40-bit or 128-bit encryption.
+Encrypt can directly re-encrypt PDFs, substantially upgrading security
+of older PDFs by strengthening encryption from 40 bits to 128 bits.
+Furthermore, set restrictions on document use, such as preventing
+high quality printing or copy and paste.
+
+
+<h3 id='options'>Options</h3>
+
+<blockquote><code>java tool.pdf.<b>E</b>ncrypt <i>[options]</i> <var>PDF-files-or-directories</var></code></blockquote>
+
+<ul class='options'>
+<li id='password'><span class='opt'>-password <var>password</var></span> -- 
+directly re-encrypt a PDF by supplying the existing <em>owner</em> password
+
+<li id='user'><span class='opt'>-user <var>password</var></span> -- 
+set user password.
+In the absence of a user password,
+the null password is used, which lets one set restrictions
+without requiring a password to view the document.
+
+<li id='owner'><span class='opt'>-owner <var>password</var></span> -- 
+set owner password.
+
+<li id='restict'><span class='opt'>-restrict[ions] <var>actions</var></span> -- 
+(see below)
+
+<li id='perm'><span class='opt'>-perm[missions] <var>actions</var></span> -- 
+<span class='opt'>-restrict</span> and <span class='opt'>-perm</span>
+set the operations available on the encrypted document.
+If <span class='opt'>-perm</span> is given, then all actions
+are restricted except those so permitted.
+If <span class='opt'>-restrict</span> is given, then all actions
+are permitted except those so restricted.
+If neither option is given, all operations are permitted.
+Actions are expressed as one or more letters from the following list:
+<ul>
+<li><code>p</code> - print high-quality
+<li><code>P</code> - print
+<li><code>c</code> - copy or otherwise extract text and graphics
+<li><code>C</code> - copy or otherwise extract text even for disabled users
+<li><code>m</code> - modify the contents, such as creating form fields and signatures
+<li><code>t</code> - annotate
+<li><code>f</code> - fill in forms
+<li><code>a</code> - assemble the document (insert, rotate, delete pages, create bookmarks or thumbnail images)
+<li>or <code>all</code> as a synonym for <code>pPcCmtfa</code>
+</ul>
+
+<li id='compat'><span class='opt'>-compat[ible]</span> -- 
+rather than 128-bit encryption, 
+use only 40-bit encryption in order to be compatible with older PDF viewers
+(Acrobat 5 and later support 128-bit encryption).
+This is not recommended because 40-bit keys are easily cracked.
+
+<!--
+<li id='compat'><span class='opt'>-keylen <var>multiple-of-8</var></span> -- 
+set number of bits of key.
+Older PDFs use 40-bit keys and newer PDFs use 128-bit keys,
+but 
+-->
+
+<li id='inplace'><span class='opt'>-inplace</span> -- write encrypted PDF over existing
+<!--
+
+<li id='out'><span class='opt'>-out[file]</span> -- in absence of 
+<span class='opt'>-inplace</span> 
+-->
+</ul>
+
+In the absence of <span class='opt'>-inplace</span>,
+the encrypted version of the PDF is named with <code>-y</code> appended to the original file name.
+
+
+<h3 id='example'>Example</h3>
+
+<p>Encrypt with user password <var>xxx</var> and owner password <var>yyy</var>,
+and allow printing but not copy and paste or other manipulation.
+
+<p><pre>java tool.pdf.Encrypt -user xxx -owner yyy -perm pP Annotations.pdf</pre>
+
+</body>
+</html>
